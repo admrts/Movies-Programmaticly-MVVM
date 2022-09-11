@@ -1,14 +1,15 @@
 //
-//  ViewController.swift
+//  TopRatedViewController.swift
 //  Movies-Programmaticly-MVVM
 //
-//  Created by Ali Demirtaş on 11.09.2022.
+//  Created by Ali Demirtaş on 12.09.2022.
 //
+
+import Foundation
 
 import UIKit
 
-class MainViewController: UIViewController {
-
+class TopRatedViewController: UIViewController {
     let tableView : UITableView = {
        let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -16,16 +17,22 @@ class MainViewController: UIViewController {
         return tv
     }()
     
-    var service = WebService()
-    var mainListViewModel : MainListViewModel!
+    let service = WebService()
+    var mainListViewModel: MainListViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Popular"
-        
+        title = "Top Rated"
+        view.addSubview(tableView)
         layout()
+        tableView.delegate = self
         tableView.dataSource = self
-        let url = URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=475a49025ee3c487db5d36a516e5eb81")!
+        getData()
+    }
+    
+    
+    func getData() {
+        let url = URL(string: "\(Api.mainUrl)top_rated\(Api.apiKey)")!
         service.LoadMovies(url: url) { movies in
             if let movies = movies {
                 self.mainListViewModel = MainListViewModel(moviesList: movies)
@@ -37,20 +44,22 @@ class MainViewController: UIViewController {
             }
         }
     }
-
-
+}
+extension TopRatedViewController {
+    
     func layout() {
-        view.addSubview(tableView)
+        
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
         ])
     }
 }
-extension MainViewController: UITableViewDataSource {
+extension TopRatedViewController: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.mainListViewModel == nil ? 0 : self.mainListViewModel.numberOfRowsInSection()
     }
