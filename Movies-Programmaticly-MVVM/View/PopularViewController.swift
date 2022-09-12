@@ -24,9 +24,10 @@ class PopularViewController: UIViewController {
         title = "Popular"
         layout()
         tableView.dataSource = self
-        getData()
+        tableView.delegate = self
+        gettData()
     }
-    func getData() {
+    func gettData() {
         let url = URL(string: "\(Api.mainUrl)popular\(Api.apiKey)")!
         service.LoadMovies(url: url) { movies in
             if let movies = movies {
@@ -39,8 +40,6 @@ class PopularViewController: UIViewController {
             }
         }
     }
-
-
     func layout() {
         view.addSubview(tableView)
         
@@ -52,7 +51,7 @@ class PopularViewController: UIViewController {
         ])
     }
 }
-extension PopularViewController: UITableViewDataSource {
+extension PopularViewController: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.mainListViewModel == nil ? 0 : self.mainListViewModel.numberOfRowsInSection()
     }
@@ -61,6 +60,15 @@ extension PopularViewController: UITableViewDataSource {
         let mainListViewModel = mainListViewModel.movieAtIndex(index: indexPath.row)
         cell.textLabel?.text = mainListViewModel.title(index: indexPath.row)
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        let mainListViewModel = mainListViewModel.movieAtIndex(index: indexPath.row)
+        vc.overview = mainListViewModel.overview(index: indexPath.row)
+        vc.movieTitle = mainListViewModel.title(index: indexPath.row)
+        vc.imageUrl = mainListViewModel.imageView(index: indexPath.row)
+        vc.navTitle = mainListViewModel.title(index: indexPath.row)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
