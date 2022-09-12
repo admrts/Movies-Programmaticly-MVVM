@@ -65,7 +65,6 @@ extension PopularViewController: UITableViewDataSource,UITableViewDelegate {
         let vc = DetailViewController()
         let mainListViewModel = mainListViewModel.movieAtIndex(index: indexPath.row)
         vc.overview = mainListViewModel.overview(index: indexPath.row)
-        vc.movieTitle = mainListViewModel.title(index: indexPath.row)
         vc.imageUrl = mainListViewModel.imageView(index: indexPath.row)
         vc.navTitle = mainListViewModel.title(index: indexPath.row)
         navigationController?.pushViewController(vc, animated: true)

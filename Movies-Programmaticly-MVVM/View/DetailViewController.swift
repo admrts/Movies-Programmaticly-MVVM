@@ -13,10 +13,19 @@ class DetailViewController: UIViewController {
         iv.contentMode = .scaleAspectFit
         return iv
     }()
+    
+    var stackView: UIStackView = {
+        let sw = UIStackView()
+        sw.translatesAutoresizingMaskIntoConstraints = false
+        sw.axis = .vertical
+        sw.distribution = .equalSpacing
+        sw.spacing = 16
+        return sw
+    }()
     var titleLabel = UILabel()
     var overviewLabel = UILabel()
     
-    var movieTitle = ""
+    
     var overview = ""
     var imageUrl = ""
     var navTitle = ""
@@ -62,32 +71,15 @@ extension DetailViewController {
     }
     func layout() {
       
-       
-        view.addSubview(imageView)
-        view.addSubview(titleLabel)
-        view.addSubview(overviewLabel)
-
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(overviewLabel)
+        view.addSubview(stackView)
         NSLayoutConstraint.activate([
-            // imageView
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 16),
-            imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 16),
-            imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -16),
-          imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1),
-            imageView.widthAnchor.constraint(equalToConstant: view.bounds.width),
-
-            
-            // titleLabel
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor,constant: 8),
-            titleLabel.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -16),
-            
-            //overviewLabel
-            
-            overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 8),
-            overviewLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
-            overviewLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
-//            overviewLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
 
         
