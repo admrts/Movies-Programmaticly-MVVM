@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     func createTabbar() -> UITabBarController {
         let tabbar = UITabBarController()
-        UITabBar.appearance().tintColor = .black
+        UITabBar.appearance().tintColor = .red
         tabbar.viewControllers = [popularTabbar(),topRatedTabbar(),upcomingTabbar()]
         return tabbar
     }
